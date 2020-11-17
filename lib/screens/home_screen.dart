@@ -27,7 +27,7 @@ class HomeScreen extends StatelessWidget {
             centerTitle: true,
             title: Text(
               'Thoughtsky',
-              style: Theme.of(context).textTheme.headline2,
+              style: Theme.of(context).textTheme.headline3,
               textAlign: TextAlign.right,
             ),
           ),

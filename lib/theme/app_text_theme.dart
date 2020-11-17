@@ -7,22 +7,54 @@ class AppTextTheme {
 
   static final TextTheme textTheme = TextTheme(
     headline1: TextStyle(
-      color: kOnBackgroundColor,
       fontFamily: 'Merriweather',
-      fontSize: 90,
+      fontSize: 72,
+      letterSpacing: -5,
       fontWeight: FontWeight.bold,
     ),
     headline2: TextStyle(
-      color: Colors.white.withOpacity(0.8),
       fontFamily: 'Merriweather',
-      fontSize: 35,
+      fontSize: 40,
+      letterSpacing: -3,
+      fontWeight: FontWeight.bold,
+    ),
+    headline3: TextStyle(
+      fontFamily: 'Merriweather',
+      fontSize: 30,
+      letterSpacing: -3,
+      fontWeight: FontWeight.bold,
+    ),
+    headline4: TextStyle(
+      fontFamily: 'Merriweather',
+      fontSize: 24,
+      letterSpacing: -1,
+      fontWeight: FontWeight.bold,
+    ),
+    headline5: TextStyle(
+      fontFamily: 'Merriweather',
+      fontSize: 16,
+      letterSpacing: 0.15,
       fontWeight: FontWeight.bold,
     ),
     headline6: TextStyle(
       color: kOnSurfaceColor,
       fontFamily: 'Merriweather',
-      fontSize: 22.0,
-      fontWeight: FontWeight.bold,
+      letterSpacing: 0.15,
+      fontSize: 14.0,
+    ),
+    subtitle1: TextStyle(
+      fontFamily: 'Merriweather',
+      fontSize: 11,
+      letterSpacing: -1,
+    ),
+    subtitle2: TextStyle(
+      fontFamily: 'MerriweatherSans',
+      fontSize: 10,
+    ),
+    button: TextStyle(
+      fontFamily: 'Merriweather',
+      fontSize: 12,
+      letterSpacing: 1.25,
     ),
   );
 }
