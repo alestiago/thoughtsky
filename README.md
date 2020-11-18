@@ -8,5 +8,8 @@ When we share our thoughts, we are trusting others with access to small portions
 
 Thoughtsky is a small conceptual preview of a future internet that employs the @Protocol to ensure our control.
 
+## Short demo
+![Thoughtsky Gif](https://media.giphy.com/media/sInQwTCJmt4JaTrjHW/giphy.gif)
+
 ## Design
-![enter image description here](https://i.imgur.com/B9jFxQi.png)
+![Thoughtsky mock-ups](https://i.imgur.com/B9jFxQi.png)
