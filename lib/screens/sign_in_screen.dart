@@ -61,7 +61,7 @@ class _SignInState extends State<SignIn> {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         Text(
-                          'Thoughtsky.',
+                          'Thoughtsky',
                           style: Theme.of(context).textTheme.headline4.copyWith(
                               color: kOnBackgroundColor.withOpacity(0.5)),
                         ),
@@ -104,12 +104,12 @@ class _SignInState extends State<SignIn> {
                                 child: AppTextField(
                                   onChange: onInputChange,
                                   hintText: "@person",
-                                  keyboardType: TextInputType.text,
+                                  keyboardType: TextInputType.emailAddress,
                                 ),
                               ),
                               Center(
                                 child: AppRaisedButton(
-                                  title: 'LOG IN',
+                                  title: 'Log in',
                                   backgroundColor: kAccentColor,
                                   onPressed: logIn,
                                 ),

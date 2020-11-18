@@ -45,34 +45,46 @@ class _SubmitScreenState extends State<SubmitScreen> {
   final String sadMoodAssetName = 'assets/img/mood_sad.svg';
   final String neutralMoodAssetName = 'assets/img/mood_neutral.svg';
   final String happyMoodAssetName = 'assets/img/mood_happy.svg';
-  final maxLines = 24;
+
+  String title = "";
+  String content = "";
 
   @override
   Widget build(BuildContext context) {
     final textTheme = AppTextTheme.textTheme; // TODO: use Theme.of(context)
 
+    // Controller
+    _MoodRadioController moodRadioController = _MoodRadioController();
+
     // Event Handlers
     void onClose() => Navigator.pop(context);
 
+    void onChangeTitle(value) {
+      setState(() {
+        title = value;
+      });
+    }
+
+    void onChangeContent(value) {
+      setState(() {
+        content = value;
+      });
+    }
+
+    void createThought() {
+      print(title);
+      print(content);
+      print(moodRadioController.activeMood);
+    }
+
+    void onSave() {
+      createThought();
+    }
+
+    void onShare() {}
+
     return Scaffold(
       backgroundColor: kAccentColor,
-      bottomNavigationBar: Padding(
-        padding: EdgeInsets.all(8.0),
-        child: Row(
-          children: [
-            Expanded(
-                child: AppTextField(
-              hintText: "@name",
-            )),
-            SizedBox(width: 20.0),
-            AppRaisedButton(
-              title: "Share",
-              backgroundColor: kSurfaceLightColor,
-              onPressed: () => {},
-            )
-          ],
-        ),
-      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.only(top: 20.0, left: 20.0, right: 20.0),
@@ -107,28 +119,46 @@ class _SubmitScreenState extends State<SubmitScreen> {
                 Padding(
                   padding: EdgeInsets.only(
                       top: 30.0, left: 50.0, bottom: 10.0, right: 50.0),
-                  child: _MoodRadioButtons(),
+                  child: _MoodRadioButtons(moodRadioController),
                 ),
                 AppTextField(
+                  onChange: onChangeTitle,
                   hintText: "Title",
                   textStyle: textTheme.headline4,
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 10),
                   child: AppTextField(
+                    onChange: onChangeContent,
                     textStyle: textTheme.subtitle2,
                     hintText: "Today I feel...",
                     maxLines: 4,
                     maxLength: 140,
                   ),
                 ),
-                Center(
-                  child: AppRaisedButton(
-                    foregroundColor: kOnSurfaceLightColor,
-                    backgroundColor: kSurfaceLightColor,
-                    title: "Save",
-                    onPressed: () => {},
-                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Center(
+                      child: AppRaisedButton(
+                        foregroundColor: kOnSurfaceLightColor,
+                        backgroundColor: kSurfaceLightColor,
+                        title: "Save",
+                        onPressed: onSave,
+                      ),
+                    ),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    Center(
+                      child: AppRaisedButton(
+                        foregroundColor: kOnSurfaceLightColor,
+                        backgroundColor: kSurfaceLightColor,
+                        title: "Share",
+                        onPressed: onShare,
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
@@ -139,8 +169,14 @@ class _SubmitScreenState extends State<SubmitScreen> {
   }
 }
 
+class _MoodRadioController {
+  Mood activeMood;
+}
+
 class _MoodRadioButtons extends StatefulWidget {
-  _MoodRadioButtons();
+  _MoodRadioButtons(this.controller);
+
+  final _MoodRadioController controller;
 
   @override
   _MoodRadioButtonsState createState() => _MoodRadioButtonsState();
@@ -153,25 +189,23 @@ class _MoodRadioButtonsState extends State<_MoodRadioButtons> {
     Mood.happy: false,
   };
 
-  _onMoodPressed(Mood selectedMood) {
+  _onMoodPressed(_MoodRadioController controller, Mood selectedMood) {
     setState(() {
       moodValues
           .forEach((mood, value) => moodValues[mood] = mood == selectedMood);
     });
-  }
 
-  getMood() {
     moodValues.forEach((key, value) {
-      if (moodValues[key]) return key;
+      if (moodValues[key]) controller.activeMood = key;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return _moodBuilder();
+    return _moodBuilder(widget.controller);
   }
 
-  _moodBuilder() {
+  _moodBuilder(_MoodRadioController controller) {
     List<Widget> moodButtons = [];
 
     moodValues.forEach((mood, value) {
@@ -182,7 +216,7 @@ class _MoodRadioButtonsState extends State<_MoodRadioButtons> {
           right: 5,
         ),
         child: GestureDetector(
-          onTap: () => _onMoodPressed(mood),
+          onTap: () => _onMoodPressed(controller, mood),
           child: AnimatedOpacity(
             opacity: value ? 1 : 0.6,
             duration: Duration(milliseconds: 700),

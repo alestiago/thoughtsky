@@ -12,6 +12,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: DefaultTabController(
+        initialIndex: 1,
         length: 3,
         child: Scaffold(
           appBar: AppBar(

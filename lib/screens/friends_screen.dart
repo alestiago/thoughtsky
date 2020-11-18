@@ -70,8 +70,14 @@ class _MoodStats extends StatelessWidget {
   }
 }
 
-class _FriendContainer extends StatelessWidget {
+class _FriendContainer extends StatefulWidget {
+  @override
+  __FriendContainerState createState() => __FriendContainerState();
+}
+
+class __FriendContainerState extends State<_FriendContainer> {
   final textTheme = AppTextTheme.textTheme;
+
   final friends = [
     "Alejandro",
     "Lucas",
@@ -79,6 +85,19 @@ class _FriendContainer extends StatelessWidget {
     "Alice",
     "Bob",
   ];
+
+  String friendName = "";
+
+  // Events
+  onChangeFriendName(value) {
+    setState(() {
+      friendName = value;
+    });
+  }
+
+  onAddFriend() {
+    print(friendName);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -102,6 +121,7 @@ class _FriendContainer extends StatelessWidget {
                   children: [
                     Expanded(
                       child: AppTextField(
+                        onChange: onChangeFriendName,
                         hintText: "@name",
                       ),
                     ),
@@ -109,6 +129,7 @@ class _FriendContainer extends StatelessWidget {
                       width: 20,
                     ),
                     AppRaisedButton(
+                      onPressed: onAddFriend,
                       title: "ADD",
                       backgroundColor: kOnSurfaceLightColor,
                       foregroundColor: kBackgroundColor,

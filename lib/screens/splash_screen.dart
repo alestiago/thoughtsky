@@ -33,9 +33,12 @@ class _SplashScreenState extends State<SplashScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              'Thoughtsky.',
-              style: textTheme.headline4.copyWith(color: kOnSurfaceLightColor),
-            )
+              'Thoughtsky',
+              style: textTheme.headline4.copyWith(color: kSurfaceColor),
+            ),
+            Text('Clear minds.',
+                style:
+                    textTheme.subtitle1.copyWith(color: kOnSurfaceLightColor))
           ],
         ),
       ),
