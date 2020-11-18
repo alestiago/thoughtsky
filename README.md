@@ -1,5 +1,5 @@
 # Thoughtsky
-Thoughtsky was built in three days as part of the FlutterVikings 2020 Conference to exemplify the use of the **@Protocol** developed by the @Company.
+Thoughtsky is a flutter application built in three days as part of the FlutterVikings 2020 Conference to exemplify the use of the **@Protocol** developed by the @Company.
 
 ## App Details
 Thoughtsky encourages self-reflection and openness with our loved ones by providing a **safe space for journaling and communication** that guarantees hassle-free privacy, thanks to the @protocol.
