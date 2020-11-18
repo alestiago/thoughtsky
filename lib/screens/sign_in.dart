@@ -8,7 +8,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'home_screen.dart';
 
 class SignIn extends StatefulWidget {
-  static final id = "/";
+  static final id = "/sign_in";
 
   @override
   _SignInState createState() => _SignInState();

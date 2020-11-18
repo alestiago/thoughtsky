@@ -1,5 +1,6 @@
 import 'package:at_challenge/screens/home_screen.dart';
 import 'package:at_challenge/screens/sign_in.dart';
+import 'package:at_challenge/screens/splash_screen.dart';
 import 'package:at_challenge/screens/submit_screen.dart';
 import 'package:at_challenge/theme/app_text_theme.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +16,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       routes: {
+        SplashScreen.id: (context) => SplashScreen(),
         SignIn.id: (context) => SignIn(),
         HomeScreen.id: (context) => HomeScreen(),
         SubmitScreen.id: (context) => SubmitScreen(),
