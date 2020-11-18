@@ -44,12 +44,12 @@ class AppTextTheme {
     ),
     subtitle1: TextStyle(
       fontFamily: 'Merriweather',
-      fontSize: 13,
+      fontSize: 14,
       letterSpacing: -1,
     ),
     subtitle2: TextStyle(
       fontFamily: 'MerriweatherSans',
-      fontSize: 12,
+      fontSize: 13,
     ),
     button: TextStyle(
       fontFamily: 'Merriweather',

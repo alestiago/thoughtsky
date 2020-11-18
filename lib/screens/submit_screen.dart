@@ -111,10 +111,12 @@ class _SubmitScreenState extends State<SubmitScreen> {
                 ),
                 AppTextField(
                   hintText: "Title",
+                  textStyle: textTheme.headline4,
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 10),
                   child: AppTextField(
+                    textStyle: textTheme.subtitle2,
                     hintText: "Today I feel...",
                     maxLines: 4,
                     maxLength: 140,

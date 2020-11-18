@@ -78,21 +78,6 @@ class _FriendContainer extends StatelessWidget {
     "John",
     "Alice",
     "Bob",
-    "Alejandro",
-    "Lucas",
-    "John",
-    "Alice",
-    "Bob",
-    "Alejandro",
-    "Lucas",
-    "John",
-    "Alice",
-    "Bob",
-    "Alejandro",
-    "Lucas",
-    "John",
-    "Alice",
-    "Bob",
   ];
 
   @override

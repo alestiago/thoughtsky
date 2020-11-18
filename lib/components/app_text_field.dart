@@ -6,13 +6,15 @@ class AppTextField extends StatelessWidget {
       this.hintText = "",
       this.keyboardType = TextInputType.text,
       this.maxLines = 1,
-      this.maxLength});
+      this.maxLength,
+      this.textStyle});
 
   final Function onChange;
   final String hintText;
   final TextInputType keyboardType;
   final int maxLines;
   final int maxLength;
+  final TextStyle textStyle;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +23,7 @@ class AppTextField extends StatelessWidget {
       autofocus: false,
       autocorrect: false,
       keyboardType: keyboardType,
-      style: Theme.of(context).textTheme.headline6,
+      style: textStyle ?? Theme.of(context).textTheme.headline6,
       maxLines: maxLines,
       maxLength: maxLength,
       decoration: InputDecoration(
