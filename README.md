@@ -9,4 +9,4 @@ When we share our thoughts, we are trusting others with access to small portions
 Thoughtsky is a small conceptual preview of a future internet that employs the @Protocol to ensure our control.
 
 ## Design
-![enter image description here](https://i.imgur.com/wgWlVzj.png)
+![enter image description here](https://i.imgur.com/B9jFxQi.png)
