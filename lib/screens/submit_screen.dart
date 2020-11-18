@@ -1,4 +1,4 @@
-import 'package:at_challenge/components/AppRaisedButton.dart';
+import 'package:at_challenge/components/app_raised_button.dart';
 import 'package:at_challenge/components/app_text_field.dart';
 import 'package:at_challenge/constants/colors.dart';
 import 'package:at_challenge/models/thought.dart';
