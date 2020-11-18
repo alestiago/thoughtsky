@@ -5,9 +5,7 @@ import 'package:at_challenge/services/database_service.dart';
 import 'package:at_challenge/theme/app_text_theme.dart';
 import 'package:flutter/material.dart';
 
-class DiaryScreen extends StatelessWidget {
-  static final id = "/diary_screen";
-
+class DiaryTab extends StatelessWidget {
   final textTheme = AppTextTheme.textTheme;
 
   @override

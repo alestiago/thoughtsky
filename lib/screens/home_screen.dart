@@ -1,9 +1,9 @@
 import 'package:at_challenge/constants/colors.dart';
-import 'package:at_challenge/screens/friends_screen.dart';
+import 'package:at_challenge/screens/profile_tab.dart';
 import 'package:flutter/material.dart';
 
-import 'cloud_screen.dart';
-import 'diary_screen.dart';
+import 'cloud_tab.dart';
+import 'diary_tab.dart';
 
 class HomeScreen extends StatelessWidget {
   static final id = "/home_screen";
@@ -38,9 +38,9 @@ class HomeScreen extends StatelessWidget {
           ),
           body: TabBarView(
             children: [
-              CloudScreen(),
-              DiaryScreen(),
-              FriendsScreen(),
+              CloudTab(),
+              DiaryTab(),
+              ProfileTab(),
             ],
           ),
         ),

@@ -6,9 +6,7 @@ import 'package:at_challenge/theme/app_text_theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class FriendsScreen extends StatelessWidget {
-  static final id = "/friends_screen";
-
+class ProfileTab extends StatelessWidget {
   final TextTheme textTheme = AppTextTheme.textTheme;
 
   @override

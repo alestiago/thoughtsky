@@ -5,9 +5,7 @@ import 'package:at_challenge/theme/app_text_theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class CloudScreen extends StatelessWidget {
-  static final id = "/cloud_screen";
-
+class CloudTab extends StatelessWidget {
   final textTheme = AppTextTheme.textTheme;
 
   @override
