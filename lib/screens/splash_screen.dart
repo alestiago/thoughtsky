@@ -4,7 +4,6 @@ import 'package:at_challenge/constants/colors.dart';
 import 'package:at_challenge/screens/sign_in_screen.dart';
 import 'package:at_challenge/theme/app_text_theme.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class SplashScreen extends StatefulWidget {
   static const id = "/";
@@ -14,8 +13,6 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  final String machangoAssetName = 'assets/img/machango.svg';
-
   final textTheme = AppTextTheme.textTheme;
 
   @override
@@ -35,7 +32,6 @@ class _SplashScreenState extends State<SplashScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SvgPicture.asset(machangoAssetName),
             Text(
               'Thoughtsky.',
               style: textTheme.headline4.copyWith(color: kOnSurfaceLightColor),

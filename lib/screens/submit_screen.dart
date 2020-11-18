@@ -106,7 +106,7 @@ class _SubmitScreenState extends State<SubmitScreen> {
                 ),
                 Padding(
                   padding: EdgeInsets.only(
-                      top: 30.0, left: 80.0, bottom: 10.0, right: 80.0),
+                      top: 30.0, left: 50.0, bottom: 10.0, right: 50.0),
                   child: _MoodRadioButtons(),
                 ),
                 AppTextField(
@@ -143,7 +143,7 @@ class _MoodRadioButtons extends StatefulWidget {
 }
 
 class _MoodRadioButtonsState extends State<_MoodRadioButtons> {
-  var moodValues = {
+  Map<Mood, bool> moodValues = {
     Mood.sad: false,
     Mood.neutral: true,
     Mood.happy: false,
@@ -172,7 +172,11 @@ class _MoodRadioButtonsState extends State<_MoodRadioButtons> {
 
     moodValues.forEach((mood, value) {
       final moodButton = Padding(
-        padding: EdgeInsets.symmetric(horizontal: 10),
+        padding: const EdgeInsets.only(
+          top: 15,
+          left: 5,
+          right: 5,
+        ),
         child: GestureDetector(
           onTap: () => _onMoodPressed(mood),
           child: AnimatedOpacity(
