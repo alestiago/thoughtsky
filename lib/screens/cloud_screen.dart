@@ -13,28 +13,31 @@ class CloudScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 20,
-        vertical: 15,
+      body: Padding(
+        padding: const EdgeInsets.only(
+          top: 15,
+          left: 20,
+          right: 20,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text("Friend's\nthoughts.",
+                style:
+                    textTheme.headline3.copyWith(color: kOnSurfaceLightColor)),
+            Expanded(
+              child: ListView.builder(
+                  itemCount: DatabaseService().friendThoughts.length,
+                  itemBuilder: _thoughtCardBuilder),
+            ),
+          ],
+        ),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text("Friend's\nthoughts.",
-              style: textTheme.headline3.copyWith(color: kOnSurfaceLightColor)),
-          Expanded(
-            child: ListView.builder(
-                itemCount: DatabaseService().getFriendThoughts.length,
-                itemBuilder: _thoughtCartBuilder),
-          ),
-        ],
-      ),
-    ));
+    );
   }
 
-  Widget _thoughtCartBuilder(BuildContext context, int index) {
-    final thoughts = DatabaseService().getFriendThoughts;
+  Widget _thoughtCardBuilder(BuildContext context, int index) {
+    final thoughts = DatabaseService().friendThoughts;
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 15),

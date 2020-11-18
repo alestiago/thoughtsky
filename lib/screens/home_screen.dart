@@ -18,6 +18,7 @@ class HomeScreen extends StatelessWidget {
             automaticallyImplyLeading: false,
             backgroundColor: kSurfaceColor,
             bottom: TabBar(
+              indicatorColor: kBackgroundColor,
               tabs: [
                 Tab(icon: Icon(Icons.cloud)),
                 Tab(icon: Icon(Icons.local_library)),

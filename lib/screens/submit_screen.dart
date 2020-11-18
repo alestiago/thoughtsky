@@ -1,3 +1,4 @@
+import 'package:animations/animations.dart';
 import 'package:at_challenge/components/app_raised_button.dart';
 import 'package:at_challenge/components/app_text_field.dart';
 import 'package:at_challenge/constants/colors.dart';
@@ -5,6 +6,33 @@ import 'package:at_challenge/models/thought.dart';
 import 'package:at_challenge/theme/app_text_theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+class OpenContainerSubmitScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return OpenContainer(
+      transitionDuration: Duration(milliseconds: 500),
+      openColor: kAccentColor,
+      openBuilder: (context, closedContainer) {
+        return SubmitScreen();
+      },
+      closedShape: CircleBorder(),
+      closedElevation: 10,
+      closedColor: Colors.transparent,
+      closedBuilder: (context, openContainer) {
+        return CircleAvatar(
+          radius: 30,
+          backgroundColor: kAccentColor,
+          child: Icon(
+            Icons.brush,
+            color: kOnAccentColor,
+            size: 30,
+          ),
+        );
+      },
+    );
+  }
+}
 
 class SubmitScreen extends StatefulWidget {
   static const id = "/submit_screen";
@@ -27,7 +55,6 @@ class _SubmitScreenState extends State<SubmitScreen> {
     void onClose() => Navigator.pop(context);
 
     return Scaffold(
-      resizeToAvoidBottomInset: false,
       backgroundColor: kAccentColor,
       bottomNavigationBar: Padding(
         padding: EdgeInsets.all(8.0),
@@ -98,9 +125,6 @@ class _SubmitScreenState extends State<SubmitScreen> {
                     title: "Save",
                     onPressed: () => {},
                   ),
-                ),
-                SizedBox(
-                  height: 150,
                 ),
               ],
             ),
