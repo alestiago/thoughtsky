@@ -30,7 +30,7 @@ class AppRaisedButton extends StatelessWidget {
       child: Padding(
         padding: EdgeInsets.all(12.0),
         child: Text(
-          title,
+          title.toUpperCase(),
           style: textTheme.button.copyWith(color: foregroundColor),
         ),
       ),

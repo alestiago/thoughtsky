@@ -55,6 +55,7 @@ class AppTextTheme {
       fontFamily: 'Merriweather',
       fontSize: 12,
       letterSpacing: 1.25,
+      fontWeight: FontWeight.bold,
     ),
   );
 }
