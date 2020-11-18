@@ -18,10 +18,27 @@ class _SignInState extends State<SignIn> {
   final String machangoAssetName = 'assets/img/machango.svg';
   final String cloudsAssetName = 'assets/img/clouds.svg';
 
+  String atTag = "";
+
   @override
   Widget build(BuildContext context) {
+    // Events
+    void onInputChange(value) {
+      setState(() {
+        atTag = value;
+      });
+    }
+
+    bool checkLogInCredential() {
+      if (atTag.isEmpty) return false;
+
+      // Attempt login
+      return true;
+    }
+
     void logIn() {
-      print("Pressed");
+      if (!checkLogInCredential()) return;
+
       Navigator.pushNamedAndRemoveUntil(
           context, HomeScreen.id, (route) => false);
     }
@@ -85,6 +102,7 @@ class _SignInState extends State<SignIn> {
                               Padding(
                                 padding: EdgeInsets.symmetric(vertical: 15),
                                 child: AppTextField(
+                                  onChange: onInputChange,
                                   hintText: "@person",
                                   keyboardType: TextInputType.text,
                                 ),

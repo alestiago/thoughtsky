@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:at_challenge/constants/colors.dart';
-import 'package:at_challenge/screens/sign_in.dart';
+import 'package:at_challenge/screens/sign_in_screen.dart';
 import 'package:at_challenge/theme/app_text_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';

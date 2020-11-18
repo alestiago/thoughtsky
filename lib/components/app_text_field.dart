@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 
 class AppTextField extends StatelessWidget {
   AppTextField(
-      {this.hintText = "",
+      {@required this.onChange,
+      this.hintText = "",
       this.keyboardType = TextInputType.text,
       this.maxLines = 1,
       this.maxLength});
 
+  final Function onChange;
   final String hintText;
   final TextInputType keyboardType;
   final int maxLines;
@@ -15,7 +17,7 @@ class AppTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextField(
-      onChanged: (value) => {},
+      onChanged: onChange,
       autofocus: false,
       autocorrect: false,
       keyboardType: keyboardType,
