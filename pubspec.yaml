@@ -61,7 +61,9 @@ flutter:
     - assets/
     - assets/img/machango.svg
     - assets/img/clouds.svg
-    - assets/img/sign_with_machango.svg
+    - assets/img/mood_happy.svg
+    - assets/img/mood_neutral.svg
+    - assets/img/mood_sad.svg
 
   fonts:
     - family: Merriweather

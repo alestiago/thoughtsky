@@ -1,3 +1,5 @@
+import 'package:at_challenge/components/AppRaisedButton.dart';
+import 'package:at_challenge/components/app_text_field.dart';
 import 'package:at_challenge/constants/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -74,7 +76,7 @@ class _SignInState extends State<SignIn> {
                                     .copyWith(color: kOnSurfaceLightColor),
                               ),
                               Text(
-                                'No more passwords.',
+                                'No need for passwords.',
                                 style: Theme.of(context)
                                     .textTheme
                                     .headline6
@@ -82,34 +84,16 @@ class _SignInState extends State<SignIn> {
                               ),
                               Padding(
                                 padding: EdgeInsets.symmetric(vertical: 15),
-                                child: TextField(
-                                  onChanged: (value) => {},
-                                  autofocus: false,
-                                  autocorrect: false,
-                                  keyboardType: TextInputType.emailAddress,
-                                  style: Theme.of(context).textTheme.headline6,
-                                  decoration: InputDecoration(
-                                    hintText: '@person',
-                                    focusColor: Colors.white,
-                                    filled: true,
-                                    fillColor: Colors.white,
-                                  ),
+                                child: AppTextField(
+                                  hintText: "@person",
+                                  keyboardType: TextInputType.text,
                                 ),
                               ),
                               Center(
-                                child: RaisedButton(
-                                  color: kAccentColor,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(30),
-                                      side: BorderSide(
-                                        color: Colors.transparent,
-                                        width: 2,
-                                      )),
+                                child: AppRaisedButton(
+                                  title: 'LOG IN',
+                                  backgroundColor: kAccentColor,
                                   onPressed: logIn,
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(12.0),
-                                    child: Text('JOIN US'),
-                                  ),
                                 ),
                               )
                             ]),

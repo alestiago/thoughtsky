@@ -1,5 +1,6 @@
 import 'package:at_challenge/components/quote.dart';
 import 'package:at_challenge/constants/colors.dart';
+import 'package:at_challenge/theme/app_text_theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:at_challenge/models/thought.dart';
@@ -9,7 +10,7 @@ class ThoughtCard extends StatelessWidget {
 
   final Thought thought;
 
-  // TODO: Use Text Theme
+  final theme = AppTextTheme.textTheme; //TODO: Use Theme.of(context)
 
   @override
   Widget build(BuildContext context) {
@@ -23,37 +24,27 @@ class ThoughtCard extends StatelessWidget {
               children: [
                 Text(
                   _formatDate(thought.date),
-                  style: TextStyle(
-                    color: kOnSurfaceLightColor,
-                    fontFamily: 'Merriweather',
-                    fontSize: 11,
-                    letterSpacing: -1,
-                  ),
+                  style: theme.subtitle1.copyWith(color: kOnSurfaceLightColor),
                 ),
                 Text(
                   thought.title,
-                  style: TextStyle(
-                    color: kOnSurfaceLightColor,
-                    fontFamily: 'Merriweather',
-                    fontSize: 24,
-                    letterSpacing: -1,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: theme.headline4.copyWith(color: kOnSurfaceLightColor),
                 ),
               ],
             ),
-            CircleAvatar(
-              backgroundColor: Colors.brown.shade800,
-              child: Text('AH'),
-            ),
+            Thought.getMoodPicture(thought.mood),
           ]),
           Padding(
             padding: EdgeInsets.only(top: 10, bottom: 5.0),
-            child: Quote(Text(thought.content)),
+            child: Quote(Text(thought.content,
+                style: theme.subtitle2.copyWith(color: kOnSurfaceLightColor))),
           ),
           Padding(
             padding: EdgeInsets.only(left: 10),
-            child: Text(thought.author),
+            child: Text(
+              thought.author,
+              style: theme.subtitle1.copyWith(color: kOnSurfaceLightColor),
+            ),
           ),
         ],
       ),
