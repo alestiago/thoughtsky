@@ -1,16 +1,12 @@
-# at_challenge
+# Thoughtsky
+Thoughtsky was built in three days as part of the FlutterVikings 2020 Conference to exemplify the use of the **@Protocol** developed by the @Company.
 
-A Flutter application implementing the at protocol.
+## App Details
+Thoughtsky encourages self-reflection and openness with our loved ones by providing a **safe space for journaling and communication** that guarantees hassle-free privacy, thanks to the @protocol.
 
-## Getting Started
+When we share our thoughts, we are trusting others with access to small portions of our mind. No company should own those small portions of "data" that are deeply personal to us. The only way we can maintain this openness in our relationships online is by ensuring control over our own data. 
 
-This project is a starting point for a Flutter application.
+Thoughtsky is a small conceptual preview of a future internet that employs the @Protocol to ensure our control.
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Design
+![enter image description here](https://i.imgur.com/wgWlVzj.png)
