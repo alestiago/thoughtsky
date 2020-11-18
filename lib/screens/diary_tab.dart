@@ -27,7 +27,7 @@ class DiaryTab extends StatelessWidget {
                       .copyWith(color: kOnSurfaceLightColor)),
               Expanded(
                 child: ListView.builder(
-                    itemCount: DatabaseService().friendThoughts.length,
+                    itemCount: DatabaseService().yourThoughts.length,
                     itemBuilder: _thoughtCardBuilder),
               ),
             ],
@@ -38,7 +38,7 @@ class DiaryTab extends StatelessWidget {
   }
 
   Widget _thoughtCardBuilder(BuildContext context, int index) {
-    final thoughts = DatabaseService().friendThoughts;
+    final thoughts = DatabaseService().yourThoughts;
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 15),
