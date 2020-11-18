@@ -122,6 +122,8 @@ class _SubmitScreenState extends State<SubmitScreen> {
                 ),
                 Center(
                   child: AppRaisedButton(
+                    foregroundColor: kOnSurfaceLightColor,
+                    backgroundColor: kSurfaceLightColor,
                     title: "Save",
                     onPressed: () => {},
                   ),
