@@ -9,7 +9,7 @@ class AppTextTheme {
     headline1: TextStyle(
       fontFamily: 'Merriweather',
       fontSize: 72,
-      letterSpacing: -5,
+      letterSpacing: -3,
       fontWeight: FontWeight.bold,
     ),
     headline2: TextStyle(
@@ -27,7 +27,7 @@ class AppTextTheme {
     headline4: TextStyle(
       fontFamily: 'Merriweather',
       fontSize: 24,
-      letterSpacing: -1,
+      letterSpacing: -0.6,
       fontWeight: FontWeight.bold,
     ),
     headline5: TextStyle(
