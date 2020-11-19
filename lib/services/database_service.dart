@@ -1,5 +1,5 @@
-/// The [DatabaseService] is accessed by a [ChangeNotifierProvider] along the app
-/// it uses common @ protocol methods.
+/// The [DatabaseService] is accessed by a [ChangeNotifierProvider] within the app,
+/// notice it uses common @ protocol methods.
 ///
 /// To showcase the app functionality, mock-up data has been provided.
 /// Feel free to do the required adjustments to simply depend
