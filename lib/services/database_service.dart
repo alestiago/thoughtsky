@@ -1,3 +1,11 @@
+/// The [DatabaseService] is accessed by a [ChangeNotifierProvider] along the app
+/// it uses common @ protocol methods.
+///
+/// To showcase the app functionality, mock-up data has been provided.
+/// Feel free to do the required adjustments to simply depend
+/// on real data by the @ protocol.
+/// TODO comments have been used to indicate these changes.
+
 import 'dart:collection';
 import 'dart:convert';
 
@@ -13,7 +21,7 @@ class DatabaseService extends ChangeNotifier {
   ServerDemoService _atClientService = ServerDemoService.getInstance();
 
   /// The atSign is update when the person authenticates.
-  /// It is needed to used the @ protocol verbs for [AtKey]
+  /// It is needed to used the @ protocol verbs, building the [AtKey].
   String _atSign = "@empty";
 
   /// List of mock-up thoughts that have been shared with the person.
@@ -103,7 +111,7 @@ class DatabaseService extends ChangeNotifier {
     return UnmodifiableListView(_orderThoughtsChronologically(_friendThoughts));
   }
 
-  // TODO: Change mock-up data to support [_readYourThoughts].
+  // TODO: Change mock-up data to the method [_readYourThoughts].
   get yourThoughts {
     List<Thought> mockUpThoughts = _yourThoughts;
     return UnmodifiableListView(_orderThoughtsChronologically(mockUpThoughts));
@@ -137,7 +145,7 @@ class DatabaseService extends ChangeNotifier {
     _yourThoughts.add(thought); // This add the thought to the mock up list.
 
     // Depending on the authentication, some errors may arise when trying to scan after
-    // this update..
+    // this update. Remove the comment to test it out.
     // TODO: Remove this comment to update the server with the content
     // await _update(thought.key, json.encode(thought));
 
@@ -147,7 +155,7 @@ class DatabaseService extends ChangeNotifier {
   // TODO: Send a notification via a [Stream] to selected atSigns and pull their data.
   shareThought(Thought tought, List<String> atSigns) async {}
 
-  // TODO: Substitute this function to load instead of the mock-up data.
+  // TODO: Use this function to load real data instead of the mock-up data above.
   _readYourThoughts() async {
     print("Database Service: Starting to scan keys from server");
     final List<String> thoughtKeys = await _scan();
