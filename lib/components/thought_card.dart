@@ -1,7 +1,7 @@
 import 'package:at_challenge/components/quote.dart';
 import 'package:at_challenge/constants/colors.dart';
 import 'package:at_challenge/theme/app_text_theme.dart';
-import 'package:at_challenge/util/date_util.dart';
+import 'package:at_challenge/utils/date_util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:at_challenge/models/thought.dart';

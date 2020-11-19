@@ -20,7 +20,7 @@ class DatabaseService {
         mood: Mood.sad,
       ),
       Thought(
-        title: 'Why?.',
+        title: 'Why?',
         date: DateTime.utc(2020, 11, 9),
         author: '@Mike',
         content:

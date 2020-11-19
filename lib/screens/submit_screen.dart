@@ -1,9 +1,10 @@
 import 'package:animations/animations.dart';
 import 'package:at_challenge/components/app_raised_button.dart';
 import 'package:at_challenge/components/app_text_field.dart';
+import 'package:at_challenge/components/mood_radio_buttons.dart';
 import 'package:at_challenge/constants/colors.dart';
-import 'package:at_challenge/models/thought.dart';
 import 'package:at_challenge/theme/app_text_theme.dart';
+import 'package:at_challenge/utils/date_util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -54,7 +55,7 @@ class _SubmitScreenState extends State<SubmitScreen> {
     final textTheme = AppTextTheme.textTheme; // TODO: use Theme.of(context)
 
     // Controller
-    _MoodRadioController moodRadioController = _MoodRadioController();
+    MoodRadioController moodRadioController = MoodRadioController();
 
     // Event Handlers
     void onClose() => Navigator.pop(context);
@@ -81,7 +82,9 @@ class _SubmitScreenState extends State<SubmitScreen> {
       createThought();
     }
 
-    void onShare() {}
+    void onShare() {
+      displayModalBottomSheet(context);
+    }
 
     return Scaffold(
       backgroundColor: kAccentColor,
@@ -96,7 +99,8 @@ class _SubmitScreenState extends State<SubmitScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Tuesday 17 November',
+                      DateUtil.formatDateToString(DateTime.now(),
+                          showWeekly: false),
                       style: textTheme.headline5
                           .copyWith(color: kOnSurfaceLightColor),
                     ),
@@ -119,7 +123,7 @@ class _SubmitScreenState extends State<SubmitScreen> {
                 Padding(
                   padding: EdgeInsets.only(
                       top: 30.0, left: 50.0, bottom: 10.0, right: 50.0),
-                  child: _MoodRadioButtons(moodRadioController),
+                  child: MoodRadioButtons(moodRadioController),
                 ),
                 AppTextField(
                   onChange: onChangeTitle,
@@ -167,70 +171,26 @@ class _SubmitScreenState extends State<SubmitScreen> {
       ),
     );
   }
-}
 
-class _MoodRadioController {
-  Mood activeMood;
-}
-
-class _MoodRadioButtons extends StatefulWidget {
-  _MoodRadioButtons(this.controller);
-
-  final _MoodRadioController controller;
-
-  @override
-  _MoodRadioButtonsState createState() => _MoodRadioButtonsState();
-}
-
-class _MoodRadioButtonsState extends State<_MoodRadioButtons> {
-  Map<Mood, bool> moodValues = {
-    Mood.sad: false,
-    Mood.neutral: true,
-    Mood.happy: false,
-  };
-
-  _onMoodPressed(_MoodRadioController controller, Mood selectedMood) {
-    setState(() {
-      moodValues
-          .forEach((mood, value) => moodValues[mood] = mood == selectedMood);
-    });
-
-    moodValues.forEach((key, value) {
-      if (moodValues[key]) controller.activeMood = key;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return _moodBuilder(widget.controller);
-  }
-
-  _moodBuilder(_MoodRadioController controller) {
-    List<Widget> moodButtons = [];
-
-    moodValues.forEach((mood, value) {
-      final moodButton = Padding(
-        padding: const EdgeInsets.only(
-          top: 15,
-          left: 5,
-          right: 5,
-        ),
-        child: GestureDetector(
-          onTap: () => _onMoodPressed(controller, mood),
-          child: AnimatedOpacity(
-            opacity: value ? 1 : 0.6,
-            duration: Duration(milliseconds: 700),
-            child: Thought.getMoodPicture(mood),
-          ),
-        ),
-      );
-
-      moodButtons.add(moodButton);
-    });
-
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: moodButtons,
-    );
+  void displayModalBottomSheet(context) {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext bc) {
+          return Container(
+            child: new Wrap(
+              children: <Widget>[
+                new ListTile(
+                    leading: new Icon(Icons.music_note),
+                    title: new Text('Music'),
+                    onTap: () => {}),
+                new ListTile(
+                  leading: new Icon(Icons.videocam),
+                  title: new Text('Video'),
+                  onTap: () => {},
+                ),
+              ],
+            ),
+          );
+        });
   }
 }

@@ -5,10 +5,16 @@ import 'package:at_challenge/screens/splash_screen.dart';
 import 'package:at_challenge/screens/submit_screen.dart';
 import 'package:at_challenge/theme/app_text_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 void main() {
   runApp(MyApp());
+
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]).then((_) {
+    runApp(MyApp());
+  });
 }
 
 class MyApp extends StatelessWidget {
@@ -22,7 +28,7 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
+        title: 'Thoughtsky',
         routes: {
           SplashScreen.id: (context) => SplashScreen(),
           SignIn.id: (context) => SignIn(),

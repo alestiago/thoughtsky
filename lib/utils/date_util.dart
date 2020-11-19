@@ -1,5 +1,5 @@
 class DateUtil {
-  static String formatDateToString(DateTime date) {
+  static String formatDateToString(DateTime date, {showWeekly = true}) {
     // This source code has been provided by Raoul Scalise
     // from [https://stackoverflow.com/questions/16126579/how-do-i-format-a-date-with-dart].
 
@@ -8,6 +8,8 @@ class DateUtil {
     Duration twoDay = new Duration(days: 2);
     Duration oneWeek = new Duration(days: 7);
     String month;
+    String weekday;
+
     switch (date.month) {
       case 1:
         month = "January";
@@ -47,6 +49,31 @@ class DateUtil {
         break;
     }
 
+    switch (date.weekday) {
+      case 1:
+        weekday = "Monday";
+        break;
+      case 2:
+        weekday = "Tuesday";
+        break;
+      case 3:
+        weekday = "Wednesday";
+        break;
+      case 4:
+        weekday = "Thursday";
+        break;
+      case 5:
+        weekday = "Friday";
+        break;
+      case 6:
+        weekday = "Saturday";
+        break;
+      case 7:
+        weekday = "Sunday";
+    }
+
+    if (!showWeekly) return '$weekday ${date.day} $month';
+
     Duration difference = today.difference(date);
 
     if (difference.compareTo(oneDay) < 1) {
@@ -54,24 +81,9 @@ class DateUtil {
     } else if (difference.compareTo(twoDay) < 1) {
       return "Yesterday";
     } else if (difference.compareTo(oneWeek) < 1) {
-      switch (date.weekday) {
-        case 1:
-          return "Monday";
-        case 2:
-          return "Tuesday";
-        case 3:
-          return "Wednesday";
-        case 4:
-          return "Thursday";
-        case 5:
-          return "Friday";
-        case 6:
-          return "Saturday";
-        case 7:
-          return "Sunday";
-      }
+      return '$weekday ${date.day}';
     } else if (date.year == today.year) {
-      return '${date.day} $month';
+      return '$weekday ${date.day} $month';
     } else {
       return '${date.day} $month ${date.year}';
     }
