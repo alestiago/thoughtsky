@@ -1,6 +1,7 @@
 class DateUtil {
+  /// Provides a "Social Media" style of date formatting.
   static String formatDateToString(DateTime date, {showWeekly = true}) {
-    // This source code has been provided by Raoul Scalise
+    // This source code has been provided by Raoul Scalise,
     // from [https://stackoverflow.com/questions/16126579/how-do-i-format-a-date-with-dart].
 
     DateTime today = new DateTime.now();

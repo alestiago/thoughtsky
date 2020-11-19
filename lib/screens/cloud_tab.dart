@@ -10,6 +10,8 @@ class CloudTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    DatabaseService databaseService = context.watch<DatabaseService>();
+
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.only(
@@ -25,7 +27,7 @@ class CloudTab extends StatelessWidget {
                     textTheme.headline3.copyWith(color: kOnSurfaceLightColor)),
             Expanded(
               child: ListView.builder(
-                  itemCount: DatabaseService().friendThoughts.length,
+                  itemCount: databaseService.friendThoughts.length,
                   itemBuilder: _thoughtCardBuilder),
             ),
           ],
@@ -35,7 +37,8 @@ class CloudTab extends StatelessWidget {
   }
 
   Widget _thoughtCardBuilder(BuildContext context, int index) {
-    final thoughts = DatabaseService().friendThoughts;
+    DatabaseService databaseService = context.watch<DatabaseService>();
+    final thoughts = databaseService.friendThoughts;
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 15),

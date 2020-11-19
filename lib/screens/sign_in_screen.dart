@@ -1,6 +1,7 @@
 import 'package:at_challenge/components/app_raised_button.dart';
 import 'package:at_challenge/components/app_text_field.dart';
 import 'package:at_challenge/constants/colors.dart';
+import 'package:at_challenge/services/database_service.dart';
 import 'package:at_challenge/services/server_demo_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -25,59 +26,53 @@ class _SignInState extends State<SignIn> {
   ServerDemoService _serverDemoService = ServerDemoService.getInstance();
   String atSign = "";
 
-  bool checkLogInCredential() {
-    if (atSign.isEmpty) return false;
-
-    // Attempt login
-    return true;
-  }
-
-  /// Use onboard() if device has PKAM public/private keys
-  /// in keychain. If that is unsuccessful, use authenticate()
-  /// to perform a CRAM auth instead.
-  _login(atSign) async {
-    FocusScope.of(context).unfocus();
-    setState(() {
-      showSpinner = true;
-    });
-
-    // Check the input before attempting to log in
-    if (!checkLogInCredential()) {
-      setState(() {
-        showSpinner = false;
-      });
-      return;
-    }
-
-    print('Trying to log in as $atSign');
-    if (atSign != null) {
-      _serverDemoService.onboard().then((value) {
-        print('Successfully logged in at $atSign');
-        Navigator.pushNamedAndRemoveUntil(
-            context, HomeScreen.id, (route) => false);
-      }).catchError((error) async {
-        print("This is the key:");
-        print(at_demo_data.cramKeyMap[atSign]);
-        print('Failed to log in as $atSign');
-
-        setState(() {
-          showSpinner = false;
-        });
-
-        await _serverDemoService.authenticate(atSign,
-            cramSecret: at_demo_data.cramKeyMap[atSign]);
-        Navigator.pushNamedAndRemoveUntil(
-            context, HomeScreen.id, (route) => false);
-      });
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
+    DatabaseService databaseService = context.watch<DatabaseService>();
+
     // Events
     void onInputChange(value) {
       setState(() {
         atSign = value;
+      });
+    }
+
+    /// Use onboard() if device has PKAM public/private keys
+    /// in keychain. If that is unsuccessful, use authenticate()
+    /// to perform a CRAM auth instead.
+    _login(atSign) async {
+      setState(() {
+        showSpinner = true;
+      });
+
+      if (atSign != null) {
+        print('Trying to log in as $atSign');
+        _serverDemoService.onboard().then((value) {
+          print('Successfully logged in at $atSign');
+          databaseService.logIn(atSign);
+          Navigator.pushNamedAndRemoveUntil(
+              context, HomeScreen.id, (route) => false);
+        }).catchError((error) async {
+          print("Failed to log in as $atSign with onboard.");
+          print("Cram key found: ${at_demo_data.cramKeyMap[atSign]}");
+
+          // This might throw a lot of verbose errors.
+          // This issue was discussed with @Tyler McNierny and @Tyler Trott.
+          // Try uninstalling the application and installing it back, and using
+          // another test @sign.
+          await _serverDemoService.authenticate(atSign,
+              cramSecret: at_demo_data.cramKeyMap[atSign]);
+          databaseService.logIn(atSign);
+          Navigator.pushNamedAndRemoveUntil(
+              context, HomeScreen.id, (route) => false);
+        });
+
+        print(
+            "Failed to authenticate with cramKey for $atSign (${at_demo_data.cramKeyMap[atSign]})");
+      }
+
+      setState(() {
+        showSpinner = false;
       });
     }
 

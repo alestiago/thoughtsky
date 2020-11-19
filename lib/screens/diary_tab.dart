@@ -43,7 +43,10 @@ class DiaryTab extends StatelessWidget {
   Widget _thoughtCardBuilder(BuildContext context, int index, thoughts) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 15),
-      child: ThoughtCard(thoughts[index]),
+      child: ThoughtCard(
+        thoughts[index],
+        showAuthor: false,
+      ),
     );
   }
 }

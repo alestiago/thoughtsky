@@ -2,6 +2,7 @@ import 'package:at_challenge/components/app_raised_button.dart';
 import 'package:at_challenge/components/app_text_field.dart';
 import 'package:at_challenge/constants/colors.dart';
 import 'package:at_challenge/models/thought.dart';
+import 'package:at_challenge/services/database_service.dart';
 import 'package:at_challenge/theme/app_text_theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +12,8 @@ class ProfileTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    DatabaseService databaseService = context.watch<DatabaseService>();
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       resizeToAvoidBottomPadding: false,
@@ -19,7 +22,7 @@ class ProfileTab extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text('@Lucas',
+            Text(databaseService.atSign,
                 textAlign: TextAlign.center,
                 style: textTheme.headline4.copyWith(color: kOnBackgroundColor)),
             _MoodStats(),
@@ -32,17 +35,19 @@ class ProfileTab extends StatelessWidget {
 }
 
 class _MoodStats extends StatelessWidget {
-  final Map<Mood, int> moodStats = {
-    Mood.sad: 32,
-    Mood.neutral: 67,
-    Mood.happy: 41,
-  };
-
   final textTheme = AppTextTheme.textTheme;
 
   @override
   Widget build(BuildContext context) {
+    DatabaseService databaseService = context.watch<DatabaseService>();
+
     List<Widget> moodButtons = [];
+
+    final Map<Mood, int> moodStats = {
+      Mood.sad: databaseService.calculateStats(Mood.sad),
+      Mood.neutral: databaseService.calculateStats(Mood.neutral),
+      Mood.happy: databaseService.calculateStats(Mood.happy),
+    };
 
     moodStats.forEach((mood, value) {
       Widget moodButton = Padding(
@@ -75,30 +80,32 @@ class _FriendContainer extends StatefulWidget {
 
 class __FriendContainerState extends State<_FriendContainer> {
   final textTheme = AppTextTheme.textTheme;
-
-  final friends = [
-    "Alejandro",
-    "Lucas",
-    "John",
-    "Alice",
-    "Bob",
-  ];
+  final fieldTextController = TextEditingController();
 
   String friendName = "";
 
-  // Events
-  onChangeFriendName(value) {
-    setState(() {
-      friendName = value;
-    });
-  }
-
-  onAddFriend() {
-    print(friendName);
-  }
-
   @override
   Widget build(BuildContext context) {
+    DatabaseService databaseService = context.watch<DatabaseService>();
+
+    // Events
+    onChangeFriendName(value) {
+      setState(() {
+        friendName = value;
+      });
+    }
+
+    onAddFriend() {
+      if (friendName.isEmpty) return;
+      databaseService.addFriend(friendName);
+
+      fieldTextController.clear();
+      FocusScopeNode currentFocus = FocusScope.of(context);
+      if (!currentFocus.hasPrimaryFocus) {
+        currentFocus.unfocus();
+      }
+    }
+
     return Expanded(
         child: Container(
       padding: EdgeInsets.all(20.0),
@@ -119,6 +126,7 @@ class __FriendContainerState extends State<_FriendContainer> {
                   children: [
                     Expanded(
                       child: AppTextField(
+                        controller: fieldTextController,
                         onChange: onChangeFriendName,
                         hintText: "@name",
                       ),
@@ -140,7 +148,7 @@ class __FriendContainerState extends State<_FriendContainer> {
               height: 40,
             ),
             _FriendList(
-              friends: friends,
+              friends: databaseService.friends,
             )
           ],
         ),

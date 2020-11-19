@@ -7,7 +7,8 @@ class AppTextField extends StatelessWidget {
       this.keyboardType = TextInputType.text,
       this.maxLines = 1,
       this.maxLength,
-      this.textStyle});
+      this.textStyle,
+      this.controller});
 
   final Function onChange;
   final String hintText;
@@ -15,10 +16,12 @@ class AppTextField extends StatelessWidget {
   final int maxLines;
   final int maxLength;
   final TextStyle textStyle;
+  final TextEditingController controller;
 
   @override
   Widget build(BuildContext context) {
     return TextField(
+      controller: controller ?? null,
       onChanged: onChange,
       autofocus: false,
       autocorrect: false,

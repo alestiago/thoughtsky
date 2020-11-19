@@ -45,10 +45,6 @@ class SubmitScreen extends StatefulWidget {
 }
 
 class _SubmitScreenState extends State<SubmitScreen> {
-  final String sadMoodAssetName = 'assets/img/mood_sad.svg';
-  final String neutralMoodAssetName = 'assets/img/mood_neutral.svg';
-  final String happyMoodAssetName = 'assets/img/mood_happy.svg';
-
   String title = "";
   String content = "";
 
@@ -76,26 +72,28 @@ class _SubmitScreenState extends State<SubmitScreen> {
     }
 
     Thought createThought() {
-      print(title);
-      print(content);
-      print(moodRadioController.activeMood);
-
       return Thought(
         title: title,
         date: DateTime.now(),
-        author: databaseService.user,
+        author: databaseService.atSign,
         content: content,
         mood: moodRadioController.activeMood ?? Mood.neutral,
       );
     }
 
-    void onSave() {
+    void onSave() async {
       final Thought thought = createThought();
-      databaseService.writeThought(thought);
+      await databaseService.writeThought(thought);
+      onClose();
+    }
+
+    void onSend() {
+      onClose();
+      onSave();
     }
 
     void onShare() {
-      displayModalBottomSheet(context);
+      displayModalBottomSheet(context, onSend);
     }
 
     return Scaffold(
@@ -184,25 +182,57 @@ class _SubmitScreenState extends State<SubmitScreen> {
     );
   }
 
-  void displayModalBottomSheet(context) {
+  void displayModalBottomSheet(context, Function onSend) {
+    final TextTheme textTheme = AppTextTheme.textTheme;
+
     showModalBottomSheet(
         context: context,
         builder: (BuildContext bc) {
           return Container(
-            child: new Wrap(
+            padding: EdgeInsets.all(20),
+            decoration: BoxDecoration(color: kSurfaceLightColor),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                new ListTile(
-                    leading: new Icon(Icons.music_note),
-                    title: new Text('Music'),
-                    onTap: () => {}),
-                new ListTile(
-                  leading: new Icon(Icons.videocam),
-                  title: new Text('Video'),
-                  onTap: () => {},
+                Text(
+                  'Share with',
+                  style:
+                      textTheme.headline3.copyWith(color: kOnSurfaceLightColor),
                 ),
+                SizedBox(),
+                AppRaisedButton(
+                  onPressed: onSend,
+                  foregroundColor: kSurfaceLightColor,
+                  backgroundColor: kOnSurfaceLightColor,
+                  title: 'Send',
+                )
               ],
             ),
           );
         });
   }
 }
+
+//Expanded(
+//child: ListView.builder(
+//itemCount: databaseService.friends.length,
+//itemBuilder: (BuildContext context, int index) {
+//return Container(
+//margin: EdgeInsets.symmetric(
+//horizontal: 20.0, vertical: 5),
+//decoration: BoxDecoration(
+//border: Border(
+//bottom:
+//BorderSide(color: kSurfaceColor, width: 1)),
+//),
+//child: Padding(
+//padding: EdgeInsets.only(left: 10, bottom: 3),
+//child: Text(
+//databaseService.friends[index],
+//style: textTheme.headline6
+//    .copyWith(color: kOnSurfaceLightColor),
+//),
+//),
+//);
+//}),
+//),

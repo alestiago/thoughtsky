@@ -7,9 +7,10 @@ import 'package:flutter/material.dart';
 import 'package:at_challenge/models/thought.dart';
 
 class ThoughtCard extends StatelessWidget {
-  ThoughtCard(this.thought);
+  ThoughtCard(this.thought, {this.showAuthor = true});
 
   final Thought thought;
+  final bool showAuthor;
 
   final theme = AppTextTheme.textTheme; //TODO: Use Theme.of(context)
 
@@ -40,13 +41,16 @@ class ThoughtCard extends StatelessWidget {
             child: Quote(Text(thought.content,
                 style: theme.subtitle2.copyWith(color: kOnSurfaceLightColor))),
           ),
-          Padding(
-            padding: EdgeInsets.only(left: 10),
-            child: Text(
-              thought.author,
-              style: theme.subtitle1.copyWith(color: kOnSurfaceLightColor),
-            ),
-          ),
+          showAuthor
+              ? Padding(
+                  padding: EdgeInsets.only(left: 10),
+                  child: Text(
+                    thought.author,
+                    style:
+                        theme.subtitle1.copyWith(color: kOnSurfaceLightColor),
+                  ),
+                )
+              : SizedBox(),
         ],
       ),
       padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 20.0),

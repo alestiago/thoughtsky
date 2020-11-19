@@ -2,14 +2,16 @@ import 'dart:collection';
 import 'dart:convert';
 
 import 'package:at_challenge/models/thought.dart';
+import 'package:at_challenge/services/server_demo_service.dart';
+import 'package:at_commons/at_commons.dart';
 import 'package:flutter/material.dart';
+import 'package:at_challenge/utils/at_conf.dart' as conf;
 
 export 'package:provider/provider.dart';
 
 class DatabaseService extends ChangeNotifier {
-  String _user = "@Lucas";
-
-  get user => _user;
+  String _atSign = "@empty";
+  ServerDemoService _atClientService = ServerDemoService.getInstance();
 
   List<Thought> _friendThoughts = [
     Thought(
@@ -81,34 +83,150 @@ class DatabaseService extends ChangeNotifier {
     ),
   ];
 
-  _orderThoughtsChronologically(List<Thought> list) {
-    /// This is just a mock up solution. Ideally, you will check the date field
-    /// of the thought and then return the appropriate Iterable.
-    return list.reversed;
-  }
+  List<String> _friends = [
+    "@Alejandro",
+    "@Lucas",
+    "@John",
+    "@Alice",
+    "@Bob",
+  ];
+
+  get atSign => _atSign;
+  get friends => UnmodifiableListView(_friends);
 
   get friendThoughts {
     return UnmodifiableListView(_orderThoughtsChronologically(_friendThoughts));
   }
 
+  /// Delivers the list of the thoughts from the given [atSign].
+  /// The [mockUpThoughts] are the pre-written thoughts.
+  /// The [serverThoughts] are the values of the keys from the given [atSign].
   get yourThoughts {
-    return UnmodifiableListView(_orderThoughtsChronologically(_yourThoughts));
+    List<Thought> mockUpThoughts = _yourThoughts;
+//    List<Thought> serverThoughts = await _readYourThoughts();
+//    List<Thought> thoughts = new List.from(mockUpThoughts)
+//      ..addAll(serverThoughts);
+    return UnmodifiableListView(_orderThoughtsChronologically(mockUpThoughts));
   }
 
-  bool writeThought(Thought thought) {
-    _yourThoughts.add(thought);
-    print(json.encode(thought));
-    readYourThoughts(json.encode(thought));
+  int calculateStats(Mood mood) {
+    int counter = 0;
+    _yourThoughts.forEach((thought) {
+      if (thought.mood == mood) counter++;
+    });
+    return counter;
+  }
 
+  addFriend(String atSign) {
+    _friends.add(atSign);
     notifyListeners();
-    return true;
   }
 
-  readYourThoughts(json) {
-    print("Decoding:");
-    print(jsonDecode(json));
-    print(jsonDecode(json).runtimeType);
-    print(thoughtFromJson(jsonDecode(json)));
-    // print(thoughtFromJson(jsonDecode(json)).title);
+  /// This is just a mock up solution. Ideally, you will check the date field
+  /// of the thought and then return the appropriate Iterable.
+  _orderThoughtsChronologically(List<Thought> list) {
+    return list.reversed;
+  }
+
+  /// This is a mock-up login method to update the atSign property of the provider.
+  /// Ideally this should be handled by the [AuthenticationService]. Together with a
+  /// Stream provider that will allow us to log out when an Auth change is detected.
+  void logIn(String atSign) {
+    _atSign = atSign;
+    notifyListeners();
+  }
+
+  /// Updates the
+  writeThought(Thought thought) async {
+    _yourThoughts.add(thought); // This add the thought to the mock up list.
+    // await _update(thought.key, json.encode(thought));
+    notifyListeners();
+  }
+
+  _readYourThoughts() async {
+    List<Thought> retrievedThoughts = [];
+
+    print("Database Service: Starting to scan keys from server");
+    final List<String> thoughtKeys = await _scan();
+    if (thoughtKeys == [] || thoughtKeys == null) {
+      print("Database Service: No keys were found");
+      return thoughtKeys;
+    }
+    print("Database Service: Found ${thoughtKeys.length} for $atSign");
+
+    thoughtKeys.forEach((key) async {
+      String jsonValue = await _lookup(key);
+      Thought thought = Thought.fromJson(jsonDecode(jsonValue));
+      retrievedThoughts.add(thought);
+    });
+
+    print(retrievedThoughts);
+    return retrievedThoughts;
+  }
+
+  Future<dynamic> _scanServerThoughts() async {
+    List<String> jsonScannedThoughts = await _scan();
+    if (jsonScannedThoughts == [] || jsonScannedThoughts == null) {
+      print("Database Service: No keys were found");
+      return jsonScannedThoughts;
+    }
+
+    // If successfully scanned some keys, attempts to decode them from JSON
+    // to a [Thought] object.
+    List<Thought> scannedThoughts = [];
+    jsonScannedThoughts.forEach((jsonThought) {
+      scannedThoughts.add(Thought.fromJson(jsonDecode(jsonThought)));
+    });
+
+    return scannedThoughts;
+  }
+
+  /// At Protocol methods.
+
+  /// Create instance of an AtKey and pass that
+  /// into the put() method with the corresponding
+  /// _value string.
+  _update(key, String value) async {
+    if (key != null && value != null) {
+      AtKey pair = AtKey();
+      pair.key = key;
+      pair.sharedWith = atSign;
+      await _atClientService.put(pair, value);
+      print("Successfully added $key and $value");
+    }
+  }
+
+  /// getKeys() corresponding to the keys shared by [atSign].
+  /// Strip any meta data away from the retrieves keys. Store
+  /// the keys into [_scanItems].
+  _scan() async {
+    List<String> response = await _atClientService.getKeys(sharedBy: atSign);
+    print("Responds $response");
+
+    if (response.length > 0) {
+      List<String> scanList = response
+          .map((key) => key
+              .replaceAll('.' + conf.namespace + atSign, '')
+              .replaceAll(atSign + ':', ''))
+          .toList();
+      print("Finished scan");
+      print(scanList);
+      return scanList;
+    }
+  }
+
+  /// Create instance of an AtKey and call get() on it.
+  _lookup(lookupKey) async {
+    if (lookupKey != null) {
+      AtKey lookup = AtKey();
+      lookup.key = lookupKey;
+      lookup.sharedWith = atSign;
+      String response = await _atClientService.get(lookup);
+      if (response != null) {
+        return response;
+      } else {
+        print("Database Service: Look up failed due to null key.");
+      }
+    }
   }
 }
