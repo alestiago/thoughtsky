@@ -3,6 +3,7 @@ import 'package:at_challenge/screens/home_screen.dart';
 import 'package:at_challenge/screens/sign_in_screen.dart';
 import 'package:at_challenge/screens/splash_screen.dart';
 import 'package:at_challenge/screens/submit_screen.dart';
+import 'package:at_challenge/services/database_service.dart';
 import 'package:at_challenge/theme/app_text_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -11,6 +12,7 @@ import 'package:provider/provider.dart';
 void main() {
   runApp(MyApp());
 
+  // Disables horizontal orientation.
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]).then((_) {
     runApp(MyApp());
@@ -22,8 +24,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider<UserData>(
-          create: (_) => UserData(),
+        ChangeNotifierProvider<DatabaseService>(
+          create: (_) => DatabaseService(),
         )
       ],
       child: MaterialApp(

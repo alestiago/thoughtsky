@@ -10,6 +10,8 @@ class DiaryTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    DatabaseService databaseService = context.watch<DatabaseService>();
+
     return Scaffold(
       floatingActionButton: OpenContainerSubmitScreen(),
       body: Scaffold(
@@ -27,8 +29,9 @@ class DiaryTab extends StatelessWidget {
                       .copyWith(color: kOnSurfaceLightColor)),
               Expanded(
                 child: ListView.builder(
-                    itemCount: DatabaseService().yourThoughts.length,
-                    itemBuilder: _thoughtCardBuilder),
+                    itemCount: databaseService.yourThoughts.length,
+                    itemBuilder: (context, index) => _thoughtCardBuilder(
+                        context, index, databaseService.yourThoughts)),
               ),
             ],
           ),
@@ -37,9 +40,7 @@ class DiaryTab extends StatelessWidget {
     );
   }
 
-  Widget _thoughtCardBuilder(BuildContext context, int index) {
-    final thoughts = DatabaseService().yourThoughts;
-
+  Widget _thoughtCardBuilder(BuildContext context, int index, thoughts) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 15),
       child: ThoughtCard(thoughts[index]),

@@ -3,10 +3,12 @@ import 'package:at_challenge/components/app_raised_button.dart';
 import 'package:at_challenge/components/app_text_field.dart';
 import 'package:at_challenge/components/mood_radio_buttons.dart';
 import 'package:at_challenge/constants/colors.dart';
+import 'package:at_challenge/models/thought.dart';
 import 'package:at_challenge/theme/app_text_theme.dart';
 import 'package:at_challenge/utils/date_util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:at_challenge/services/database_service.dart';
 
 class OpenContainerSubmitScreen extends StatelessWidget {
   @override
@@ -53,6 +55,7 @@ class _SubmitScreenState extends State<SubmitScreen> {
   @override
   Widget build(BuildContext context) {
     final textTheme = AppTextTheme.textTheme; // TODO: use Theme.of(context)
+    DatabaseService databaseService = context.watch<DatabaseService>();
 
     // Controller
     MoodRadioController moodRadioController = MoodRadioController();
@@ -72,14 +75,23 @@ class _SubmitScreenState extends State<SubmitScreen> {
       });
     }
 
-    void createThought() {
+    Thought createThought() {
       print(title);
       print(content);
       print(moodRadioController.activeMood);
+
+      return Thought(
+        title: title,
+        date: DateTime.now(),
+        author: databaseService.user,
+        content: content,
+        mood: moodRadioController.activeMood ?? Mood.neutral,
+      );
     }
 
     void onSave() {
-      createThought();
+      final Thought thought = createThought();
+      databaseService.writeThought(thought);
     }
 
     void onShare() {
