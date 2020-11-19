@@ -10,9 +10,13 @@ import 'package:at_challenge/utils/at_conf.dart' as conf;
 export 'package:provider/provider.dart';
 
 class DatabaseService extends ChangeNotifier {
-  String _atSign = "@empty";
   ServerDemoService _atClientService = ServerDemoService.getInstance();
 
+  /// The atSign is update when the person authenticates.
+  /// It is needed to used the @ protocol verbs for [AtKey]
+  String _atSign = "@empty";
+
+  /// List of mock-up thoughts that have been shared with the person.
   List<Thought> _friendThoughts = [
     Thought(
       title: 'Long morning.',
@@ -48,11 +52,12 @@ class DatabaseService extends ChangeNotifier {
     ),
   ];
 
+  /// List of mock-up thoughts uploaded by the person.
   List<Thought> _yourThoughts = [
     Thought(
       title: 'Christmas Dinner',
       date: DateTime.utc(2019, 12, 31),
-      author: '@Lucas',
+      author: '@colin',
       content:
           "I should have trusted my gut instinct. They always give me a bad time. They're not the people I choose to spend my life with why should they tell me how to live it. Two more hours and I'll be done.",
       mood: Mood.sad,
@@ -60,7 +65,7 @@ class DatabaseService extends ChangeNotifier {
     Thought(
       title: "This will be my year!",
       date: DateTime.utc(2020, 1, 3),
-      author: '@Lucas',
+      author: '@colin',
       content:
           "I'm gonna work to make this my best year so far. Make it to the big galleries, treat myself with more kindness. These aren't resolutions, this is a new me.",
       mood: Mood.happy,
@@ -68,7 +73,7 @@ class DatabaseService extends ChangeNotifier {
     Thought(
       title: 'Back home early.',
       date: DateTime.utc(2020, 1, 8),
-      author: '@Lucas',
+      author: '@colin',
       content:
           "I feel like I've let @Frank down by leaving soon, but I couldn't stand it any longer. I didn't want to be with them. Why can't I just have fun like other people do?",
       mood: Mood.neutral,
@@ -76,13 +81,14 @@ class DatabaseService extends ChangeNotifier {
     Thought(
       title: 'My team won!',
       date: DateTime.utc(2020, 2, 10),
-      author: '@Lucas',
+      author: '@colin',
       content:
           "The match was tight. @NoahOnassis scored the decisive goal in the last minute, she was absolutely spectacular tonight. It's given the team hope to get into nationals! We're defo partying tonight.",
       mood: Mood.happy,
     ),
   ];
 
+  /// List of mock-up @signs of the person.
   List<String> _friends = [
     "@Alejandro",
     "@Lucas",
@@ -93,20 +99,17 @@ class DatabaseService extends ChangeNotifier {
 
   get atSign => _atSign;
   get friends => UnmodifiableListView(_friends);
-
   get friendThoughts {
     return UnmodifiableListView(_orderThoughtsChronologically(_friendThoughts));
   }
 
-  /// Delivers the list of the thoughts from the given [atSign].
-  /// The [mockUpThoughts] are the pre-written thoughts.
-  /// The [serverThoughts] are the values of the keys from the given [atSign].
   get yourThoughts {
     List<Thought> mockUpThoughts = _yourThoughts;
-//    List<Thought> serverThoughts = await _readYourThoughts();
+    return UnmodifiableListView(_orderThoughtsChronologically(mockUpThoughts));
+
+    //    List<Thought> serverThoughts = await _readYourThoughts();
 //    List<Thought> thoughts = new List.from(mockUpThoughts)
 //      ..addAll(serverThoughts);
-    return UnmodifiableListView(_orderThoughtsChronologically(mockUpThoughts));
   }
 
   int calculateStats(Mood mood) {
@@ -122,37 +125,35 @@ class DatabaseService extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// This is just a mock up solution. Ideally, you will check the date field
-  /// of the thought and then return the appropriate Iterable.
+  // TODO: Implement this to check the date field and order the list accordingly.
   _orderThoughtsChronologically(List<Thought> list) {
     return list.reversed;
   }
 
-  /// This is a mock-up login method to update the atSign property of the provider.
-  /// Ideally this should be handled by the [AuthenticationService]. Together with a
-  /// Stream provider that will allow us to log out when an Auth change is detected.
+  // TODO: Use an AuthenticateService with a [StreamProvider] to update Auth changes.
   void logIn(String atSign) {
     _atSign = atSign;
     notifyListeners();
   }
 
-  /// Updates the
   writeThought(Thought thought) async {
     _yourThoughts.add(thought); // This add the thought to the mock up list.
     // await _update(thought.key, json.encode(thought));
     notifyListeners();
   }
 
+  shareThought(Thought tought, String atSign) async {}
+
   _readYourThoughts() async {
     List<Thought> retrievedThoughts = [];
 
     print("Database Service: Starting to scan keys from server");
+
     final List<String> thoughtKeys = await _scan();
     if (thoughtKeys == [] || thoughtKeys == null) {
       print("Database Service: No keys were found");
       return thoughtKeys;
     }
-    print("Database Service: Found ${thoughtKeys.length} for $atSign");
 
     thoughtKeys.forEach((key) async {
       String jsonValue = await _lookup(key);
@@ -160,7 +161,6 @@ class DatabaseService extends ChangeNotifier {
       retrievedThoughts.add(thought);
     });
 
-    print(retrievedThoughts);
     return retrievedThoughts;
   }
 
@@ -181,8 +181,6 @@ class DatabaseService extends ChangeNotifier {
     return scannedThoughts;
   }
 
-  /// At Protocol methods.
-
   /// Create instance of an AtKey and pass that
   /// into the put() method with the corresponding
   /// _value string.
@@ -201,7 +199,6 @@ class DatabaseService extends ChangeNotifier {
   /// the keys into [_scanItems].
   _scan() async {
     List<String> response = await _atClientService.getKeys(sharedBy: atSign);
-    print("Responds $response");
 
     if (response.length > 0) {
       List<String> scanList = response
@@ -209,8 +206,8 @@ class DatabaseService extends ChangeNotifier {
               .replaceAll('.' + conf.namespace + atSign, '')
               .replaceAll(atSign + ':', ''))
           .toList();
-      print("Finished scan");
-      print(scanList);
+
+      print("Finished scan with result $scanList");
       return scanList;
     }
   }

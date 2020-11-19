@@ -41,6 +41,11 @@ class _SignInState extends State<SignIn> {
     /// in keychain. If that is unsuccessful, use authenticate()
     /// to perform a CRAM auth instead.
     _login(atSign) async {
+      FocusScopeNode currentFocus = FocusScope.of(context);
+      if (!currentFocus.hasPrimaryFocus) {
+        currentFocus.unfocus();
+      }
+
       setState(() {
         showSpinner = true;
       });
@@ -150,7 +155,7 @@ class _SignInState extends State<SignIn> {
                                   child: AppRaisedButton(
                                     title: 'Log in',
                                     backgroundColor: kAccentColor,
-                                    onPressed: () => _login(atSign),
+                                    onPressed: () async => _login(atSign),
                                   ),
                                 )
                               ]),

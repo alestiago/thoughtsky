@@ -1,3 +1,18 @@
+///
+/// This is a conceptual Flutter Application to exemplify use of the
+/// @Protocol developed by the @ Company.
+///
+/// It was build in less than three days from scratch as part of the
+/// Flutter Vikings 2020 activity by the @ Company.
+///
+/// Therefore, the real functionality might be limited and the code might have
+/// some errors. Like for example, resizability, user error checking.
+///
+/// If you would like to try it we recommend using Nexus 6P API 25 emulator.
+/// and follow the setup provided by the @ protocol. Which you can find here:
+/// - https://docs.google.com/document/d/1s1V3kZot4vWsn2f9B3Sy0P5OesCQXigypxFCNpqoBKs/edit
+///
+
 import 'package:at_challenge/providers/user_data.dart';
 import 'package:at_challenge/screens/home_screen.dart';
 import 'package:at_challenge/screens/sign_in_screen.dart';

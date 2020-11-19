@@ -184,6 +184,13 @@ class _SubmitScreenState extends State<SubmitScreen> {
 
   void displayModalBottomSheet(context, Function onSend) {
     final TextTheme textTheme = AppTextTheme.textTheme;
+    List<String> friends = [
+      "@Alejandro",
+      "@Lucas",
+      "@John",
+      "@Alice",
+      "@Bob",
+    ];
 
     showModalBottomSheet(
         context: context,
@@ -199,7 +206,29 @@ class _SubmitScreenState extends State<SubmitScreen> {
                   style:
                       textTheme.headline3.copyWith(color: kOnSurfaceLightColor),
                 ),
-                SizedBox(),
+                ListView.builder(
+                    primary: false,
+                    shrinkWrap: true,
+                    itemCount: friends.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Container(
+                        margin:
+                            EdgeInsets.symmetric(horizontal: 20.0, vertical: 5),
+                        decoration: BoxDecoration(
+                          border: Border(
+                              bottom:
+                                  BorderSide(color: kSurfaceColor, width: 1)),
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 10, bottom: 3),
+                          child: Text(
+                            friends[index],
+                            style: textTheme.headline6
+                                .copyWith(color: kOnSurfaceLightColor),
+                          ),
+                        ),
+                      );
+                    }),
                 AppRaisedButton(
                   onPressed: onSend,
                   foregroundColor: kSurfaceLightColor,
@@ -212,27 +241,3 @@ class _SubmitScreenState extends State<SubmitScreen> {
         });
   }
 }
-
-//Expanded(
-//child: ListView.builder(
-//itemCount: databaseService.friends.length,
-//itemBuilder: (BuildContext context, int index) {
-//return Container(
-//margin: EdgeInsets.symmetric(
-//horizontal: 20.0, vertical: 5),
-//decoration: BoxDecoration(
-//border: Border(
-//bottom:
-//BorderSide(color: kSurfaceColor, width: 1)),
-//),
-//child: Padding(
-//padding: EdgeInsets.only(left: 10, bottom: 3),
-//child: Text(
-//databaseService.friends[index],
-//style: textTheme.headline6
-//    .copyWith(color: kOnSurfaceLightColor),
-//),
-//),
-//);
-//}),
-//),
