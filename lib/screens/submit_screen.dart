@@ -93,7 +93,7 @@ class _SubmitScreenState extends State<SubmitScreen> {
     }
 
     void onShare() {
-      displayModalBottomSheet(context, onSend);
+      displayModalBottomSheet(context, onSend, databaseService);
     }
 
     return Scaffold(
@@ -182,15 +182,8 @@ class _SubmitScreenState extends State<SubmitScreen> {
     );
   }
 
-  void displayModalBottomSheet(context, Function onSend) {
+  void displayModalBottomSheet(context, Function onSend, databaseService) {
     final TextTheme textTheme = AppTextTheme.textTheme;
-    List<String> friends = [
-      "@Alejandro",
-      "@Lucas",
-      "@John",
-      "@Alice",
-      "@Bob",
-    ];
 
     showModalBottomSheet(
         context: context,
@@ -209,7 +202,7 @@ class _SubmitScreenState extends State<SubmitScreen> {
                 ListView.builder(
                     primary: false,
                     shrinkWrap: true,
-                    itemCount: friends.length,
+                    itemCount: databaseService.friends.length,
                     itemBuilder: (BuildContext context, int index) {
                       return Container(
                         margin:
@@ -222,7 +215,7 @@ class _SubmitScreenState extends State<SubmitScreen> {
                         child: Padding(
                           padding: EdgeInsets.only(left: 10, bottom: 3),
                           child: Text(
-                            friends[index],
+                            databaseService.friends[index],
                             style: textTheme.headline6
                                 .copyWith(color: kOnSurfaceLightColor),
                           ),

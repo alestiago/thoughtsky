@@ -12,7 +12,7 @@ class ThoughtCard extends StatelessWidget {
   final Thought thought;
   final bool showAuthor;
 
-  final theme = AppTextTheme.textTheme; //TODO: Use Theme.of(context)
+  final theme = AppTextTheme.textTheme;
 
   @override
   Widget build(BuildContext context) {

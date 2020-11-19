@@ -103,13 +103,10 @@ class DatabaseService extends ChangeNotifier {
     return UnmodifiableListView(_orderThoughtsChronologically(_friendThoughts));
   }
 
+  // TODO: Change mock-up data to support [_readYourThoughts].
   get yourThoughts {
     List<Thought> mockUpThoughts = _yourThoughts;
     return UnmodifiableListView(_orderThoughtsChronologically(mockUpThoughts));
-
-    //    List<Thought> serverThoughts = await _readYourThoughts();
-//    List<Thought> thoughts = new List.from(mockUpThoughts)
-//      ..addAll(serverThoughts);
   }
 
   int calculateStats(Mood mood) {
@@ -138,23 +135,29 @@ class DatabaseService extends ChangeNotifier {
 
   writeThought(Thought thought) async {
     _yourThoughts.add(thought); // This add the thought to the mock up list.
+
+    // Depending on the authentication, some errors may arise when trying to scan after
+    // this update..
+    // TODO: Remove this comment to update the server with the content
     // await _update(thought.key, json.encode(thought));
+
     notifyListeners();
   }
 
-  shareThought(Thought tought, String atSign) async {}
+  // TODO: Send a notification via a [Stream] to selected atSigns and pull their data.
+  shareThought(Thought tought, List<String> atSigns) async {}
 
+  // TODO: Substitute this function to load instead of the mock-up data.
   _readYourThoughts() async {
-    List<Thought> retrievedThoughts = [];
-
     print("Database Service: Starting to scan keys from server");
-
     final List<String> thoughtKeys = await _scan();
     if (thoughtKeys == [] || thoughtKeys == null) {
       print("Database Service: No keys were found");
       return thoughtKeys;
     }
 
+    // If scanned successfully, starts decoding the json.
+    List<Thought> retrievedThoughts = [];
     thoughtKeys.forEach((key) async {
       String jsonValue = await _lookup(key);
       Thought thought = Thought.fromJson(jsonDecode(jsonValue));
@@ -162,23 +165,6 @@ class DatabaseService extends ChangeNotifier {
     });
 
     return retrievedThoughts;
-  }
-
-  Future<dynamic> _scanServerThoughts() async {
-    List<String> jsonScannedThoughts = await _scan();
-    if (jsonScannedThoughts == [] || jsonScannedThoughts == null) {
-      print("Database Service: No keys were found");
-      return jsonScannedThoughts;
-    }
-
-    // If successfully scanned some keys, attempts to decode them from JSON
-    // to a [Thought] object.
-    List<Thought> scannedThoughts = [];
-    jsonScannedThoughts.forEach((jsonThought) {
-      scannedThoughts.add(Thought.fromJson(jsonDecode(jsonThought)));
-    });
-
-    return scannedThoughts;
   }
 
   /// Create instance of an AtKey and pass that
@@ -199,6 +185,7 @@ class DatabaseService extends ChangeNotifier {
   /// the keys into [_scanItems].
   _scan() async {
     List<String> response = await _atClientService.getKeys(sharedBy: atSign);
+    print('This is the response of $atSign');
 
     if (response.length > 0) {
       List<String> scanList = response

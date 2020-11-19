@@ -13,7 +13,6 @@
 /// - https://docs.google.com/document/d/1s1V3kZot4vWsn2f9B3Sy0P5OesCQXigypxFCNpqoBKs/edit
 ///
 
-import 'package:at_challenge/providers/user_data.dart';
 import 'package:at_challenge/screens/home_screen.dart';
 import 'package:at_challenge/screens/sign_in_screen.dart';
 import 'package:at_challenge/screens/splash_screen.dart';

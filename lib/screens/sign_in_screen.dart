@@ -41,6 +41,7 @@ class _SignInState extends State<SignIn> {
     /// in keychain. If that is unsuccessful, use authenticate()
     /// to perform a CRAM auth instead.
     _login(atSign) async {
+      // Removes focus from text field.
       FocusScopeNode currentFocus = FocusScope.of(context);
       if (!currentFocus.hasPrimaryFocus) {
         currentFocus.unfocus();
@@ -58,13 +59,16 @@ class _SignInState extends State<SignIn> {
           Navigator.pushNamedAndRemoveUntil(
               context, HomeScreen.id, (route) => false);
         }).catchError((error) async {
-          print("Failed to log in as $atSign with onboard.");
+          print(
+              "Failed to log in as $atSign with PKAM attempting with CRAM key.");
           print("Cram key found: ${at_demo_data.cramKeyMap[atSign]}");
 
           // This might throw a lot of verbose errors.
           // This issue was discussed with @Tyler McNierny and @Tyler Trott.
           // Try uninstalling the application and installing it back, and using
-          // another test @sign.
+          // another valid test @sign.
+          // If still authentication issues are present. Change code to navigate
+          // to HomeScreen to test the application.
           await _serverDemoService.authenticate(atSign,
               cramSecret: at_demo_data.cramKeyMap[atSign]);
           databaseService.logIn(atSign);
